@@ -1,6 +1,8 @@
 <?php
 
 //use App\Http\Controllers\ProfileController;
+
+use App\Http\Controllers\FavoritesController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UsersController;
@@ -32,14 +34,18 @@ Route::get('/dashboard', [MicropostsController::class, 'index'])->middleware(['a
 
 Route::middleware('auth')->group(function () {
 
-    // 追記ここから
     Route::prefix('users/{id}')->group(function () {
         Route::post('follow', [UserFollowController::class, 'store'])->name('user.follow');
         Route::delete('unfollow', [UserFollowController::class, 'destroy'])->name('user.unfollow');
         Route::get('followings', [UsersController::class, 'followings'])->name('users.followings');
         Route::get('followers', [UsersController::class, 'followers'])->name('users.followers');
+        Route::get('favorites', [UsersController::class, 'favorites'])->name('users.favorites');
     });
-    // 追記きこまで
+    
+    Route::prefix('microposts/{id}')->group(function() {
+        Route::post('favorites', [FavoritesController::class, 'store'])->name('favorites.favorite');
+        Route::delete('unfavorite', [FavoritesController::class, 'destroy'])->name('favorites.unfavorite');
+    });
     
     Route::resource('users', UsersController::class, ['only' => ['index', 'show']]);
     Route::resource('microposts', MicropostsController::class, ['only' => ['store', 'destroy']]);

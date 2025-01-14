@@ -5,7 +5,7 @@
             <h1><a class="btn btn-ghost normal-case text-xl" href="/">Microposts</a></h1>
         </div>
 
-        <div class="flex-none">
+        <div class="flex items-stretch">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <ul tabindex="0" class="menu hidden lg:menu-horizontal">
